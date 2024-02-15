@@ -14,7 +14,7 @@ From the paper Making Sentence Embeddings Robust to User-Generated Content.
 
 <img align="center" src="./img/robust-laser.png" width="400" alt="Teacher-Student distillation of LASER">
 
-RoLASER is a sentence embedding model trained by distillation of LASER to be robust to user-generated content (UGC). Examples of such content are social media posts, which are known to present a lot of lexical variations (spelling errors, internet slang, abbreviations, ...). While sentence the original LASER encoder is able to map paraphrases and translations close to each other in the sentence embedding space model, RoLASER maps non-standard UGC sentences close to their standard versions in the LASER space.
+RoLASER is a sentence embedding model trained by distillation of LASER to be robust to user-generated content (UGC). Examples of such content are social media posts, which are known to present a lot of lexical variations (spelling errors, internet slang, abbreviations, ...). RoLASER maps non-standard UGC sentences close to their standard versions in the LASER embedding space, just as the original LASER encoder maps paraphrases and translations close to each other.
 
 ### Examples
 
