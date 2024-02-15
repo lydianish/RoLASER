@@ -10,7 +10,7 @@ From the paper Making Sentence Embeddings Robust to User-Generated Content.
 4. [Citation](#citation)
 
 
-## Introduction <a name="introduction"></a>
+## 1. Introduction <a name="introduction"></a>
 
 <img align="center" src="./img/robust-laser.png" width="400" alt="Teacher-Student distillation of LASER">
 
@@ -26,7 +26,7 @@ add plot of rocsmt sentences
 
 tables?
 
-## Usage <a name="usage"></a>
+## 2. Usage <a name="usage"></a>
 
 ### Installation
 
@@ -70,7 +70,7 @@ python ./evaluation/rolaser.py $file1 $file2 -f -m $model_path -t $tokenizer_pat
 
 link to download models + tokenizers?
 
-## Reproduction <a name="reproduction"></a>
+## 3. Reproduction <a name="reproduction"></a>
 
 link to download preprocessed data
 
@@ -97,5 +97,5 @@ Evaluation
     - mteb
 - plot sentences
 
-## Citation <a name="citation"></a>
+## 4. Citation <a name="citation"></a>
 
