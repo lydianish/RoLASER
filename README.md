@@ -1,4 +1,4 @@
-# RoLASER: A Robust LASER encoder for English User-Generated Content
+# RoLASER: A Robust LASER Encoder for English User-Generated Content
 
 From the paper Making Sentence Embeddings Robust to User-Generated Content.
 
