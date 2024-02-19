@@ -4,15 +4,25 @@ set -e
 
 UGC_FILE="data/demo_ugc.txt"
 STD_FILE="data/demo_std.txt"
-OUTPUT_DIR="outputs/"
+OUTPUT_DIR="outputs"
 
-MODELS="LASER RoLASER c-RoLASER"
+mkdir -p $OUTPUT_DIR
 
-for MODEL in $MODELS
+MODEL_DIR[0]="models/LASER"
+TOKENIZER[0]="spm"
+
+MODEL_DIR[1]="models/RoLASER"
+TOKENIZER[1]="roberta"
+
+MODEL_DIR[2]="models/c-RoLASER"
+TOKENIZER[2]="char"
+
+for i in {0..2}
 do
-    MODEL_DIR=models/${MODEL}
 
-    python evaluation/rolaser.py -m $MODEL_DIR --ugc-file $UGC_FILE --std-file $STD_FILE -o $OUTPUT_DIR
+    python evaluation/cos_dist.py -m ${MODEL_DIR[$i]} \
+        -t ${TOKENIZER[$i]} \
+        --ugc-file $UGC_FILE \
+        --std-file $STD_FILE | tee -a $OUTPUT_DIR/outputs.log
 
-    cat outputs/outputs_${MODEL}.txt | tee -a outputs/outputs.log
 done

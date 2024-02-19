@@ -1,12 +1,10 @@
 import sys, os, argparse
-#import numpy as np
-#import pandas as pd
+
 from sklearn.metrics.pairwise import paired_cosine_distances
 from sklearn.preprocessing import normalize
 
-os.environ['FAIRSEQ'] = '/home/lnishimw/scratch/fairseq'
-os.environ['LASER'] = '/home/lnishimw/scratch/LASER'
-sys.path.append(f"{os.environ['FAIRSEQ']}")
+sys.path.append('/home/lnishimw/scratch/fairseq')
+os.environ['LASER'] = '/home/lnishimw/scratch/LASER' # required
 sys.path.append(f"{os.environ['LASER']}/source")
 
 from embed import EmbedLoad, embed_sentences
@@ -21,8 +19,8 @@ DASHES = '-' * 40
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--ugc-file', help='name of UGC data file', type=str)
-    parser.add_argument('--std-file', help='name of standard data file', type=str)
+    parser.add_argument('--ugc-file', help='name of UGC data file', type=str, default='./data/demo_ugc.txt')
+    parser.add_argument('--std-file', help='name of standard data file', type=str, default='.data/demo_std.txt')
     parser.add_argument('-m', '--model-dir', help='path to model directory', type=str)
     parser.add_argument('-o', '--output-dir', help='path to directory to save embeddings and results', type=str)
     args = parser.parse_args()

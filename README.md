@@ -46,44 +46,78 @@ Dependencies:
 
 ### Examples
 
-The following demo script (`demo.sh`) is made available to test the models on a few sentences:
+#### 1. Sentence Similarity
 
-```bash
-#!/bin/bash
+Computing pairwise cosine distances between sentence embeddings in Python:
 
-set -e
+```python
+import sys, os
 
-UGC_FILE="data/demo_ugc.txt"
-STD_FILE="data/demo_std.txt"
-OUTPUT_DIR="outputs/"
+from sklearn.metrics.pairwise import paired_cosine_distances
+from sklearn.preprocessing import normalize
 
-MODELS="LASER RoLASER c-RoLASER"
+# Set the path to the fairseq and LASER local repos:
+sys.path.append('/path/to/fairseq')
+os.environ['LASER'] = '/path/to/LASER' # required
+sys.path.append(f"{os.environ['LASER']}/source")
 
-for MODEL in $MODELS
-do
-    MODEL_DIR=models/${MODEL}
+from rolaser import RoLaserEncoder
 
-    python evaluation/rolaser.py -m $MODEL_DIR --ugc-file $UGC_FILE --std-file $STD_FILE -o $OUTPUT_DIR
+# Set the model and vocab paths, and pick the corresponding tokenizer type 
+# (spm for LASER, roberta for RoLASER, and char for c-RoLASER ):
+model = "/path/to/model"
+vocab = "/path/to/vocab"
+tokenizer = "spm | roberta | char"
 
-    cat outputs/outputs_${MODEL}.txt | tee -a outputs/outputs.log
-done
+ugc_sentences = [
+    'c u 2moro',
+    'I love cheese!',
+    'eye wud liek 2 aply 4 vilage idot'
+]
+
+std_sentences = [
+    'see you tomorrow',
+    'I love cheese!',
+    'I would like to apply for village idiot.'
+]
+
+model = RoLaserEncoder(model_path=model, vocab=vocab, tokenizer=tokenizer)
+    
+X_std = model.encode(std_sentences)
+X_std = normalize(X_std)
+X_ugc = model.encode(ugc_sentences)
+X_ugc = normalize(X_ugc)
+
+X_cos = paired_cosine_distances(X_std, X_ugc)
+X_cos_avg = X_cos.mean()
+
+print('Average paired cosine distance', X_cos_avg)
 ```
 
-Run the demo using this command:
+
+An evaluation script is made available to compute the cosine distances of a file line by line (`evaluation/cos_dist.py`). Use the following command to call it:
 
 ```bash
 cd RoLASER
 
+python evaluation/cos_dist.py -m $MODEL_DIR \
+        -t $TOKENIZER \
+        --ugc-file $UGC_FILE \
+        --std-file $STD_FILE
+```
+
+You can also run the demo script using this command:
+
+```bash
 bash ./demo.sh
 ```
 
-It will output the pairwise cosine distances of the three example sentences used in the paper for all models (`outputs_LASER.txt`, `outputs_RoLASER.txt`, `outputs_c-RoLASER.txt`) and also append them to a single `outputs.log` file:
+It will output the pairwise cosine distances of the three example sentences used in the paper for LASER, RoLASER and c-RoLASER, and also append them to a single `outputs/outputs.log` file:
 
 ```
 ----------------------------------------
 Pairwise cosine distances from LASER
 ----------------------------------------
-
 c u 2moro
 see you tomorrow
 0.6577198
@@ -92,44 +126,46 @@ I love cheese!
 I love cheese!
 0.0
 
-eye wud liek 2 aply 4 vilage idotI would like to apply for village idiot.
+eye wud liek 2 aply 4 vilage idot
+I would like to apply for village idiot.
 0.56884325
 
-Average across 3 lines: 0.40885433554649353
+Average across 3 sentences: 0.40885434
 
 ----------------------------------------
 Pairwise cosine distances from RoLASER
 ----------------------------------------
-
 c u 2moro
 see you tomorrow
-0.041529708
+0.041529734
 
 I love cheese!
 I love cheese!
-6.3265886e-12
+0.0
 
-eye wud liek 2 aply 4 vilage idotI would like to apply for village idiot.
-0.21073465
+eye wud liek 2 aply 4 vilage idot
+I would like to apply for village idiot.
+0.21073495
 
-Average across 3 lines: 0.08408811688423157
+Average across 3 sentences: 0.08408823
 
 ----------------------------------------
 Pairwise cosine distances from c-RoLASER
 ----------------------------------------
-
 c u 2moro
 see you tomorrow
-0.013441907
+0.038794976
 
 I love cheese!
 I love cheese!
-0.013131566
+0.0
 
-eye wud liek 2 aply 4 vilage idotI would like to apply for village idiot.
-0.26292965
+eye wud liek 2 aply 4 vilage idot
+I would like to apply for village idiot.
+0.26292953
 
-Average across 3 lines: 0.09650104492902756
+Average across 3 sentences: 0.10057483
+
 ```
 
 
