@@ -33,9 +33,9 @@ tables?
 ### Installation
 
 Environment:
-- Python 
+- Python >= 3.7
 - Pythorch 1.10.1+cu102
-- GCC
+- GCC 11.2
 
 Dependencies:
 
