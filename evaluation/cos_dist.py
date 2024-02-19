@@ -1,5 +1,5 @@
 import sys, os, argparse
-
+import pandas as pd
 from sklearn.metrics.pairwise import paired_cosine_distances
 from sklearn.preprocessing import normalize
 
@@ -13,10 +13,11 @@ DASHES = '-' * 40
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--ugc-file', help='name of UGC data file', type=str, default='./data/demo_ugc.txt')
-    parser.add_argument('--std-file', help='name of standard data file', type=str, default='./data/demo_std.txt')
+    parser.add_argument('--ugc-file', help='path to UGC data file', type=str, default='./data/demo_ugc.txt')
+    parser.add_argument('--std-file', help='path to standard data file', type=str, default='./data/demo_std.txt')
     parser.add_argument('-m', '--model-dir', help='path to model directory', type=str, required=True)
     parser.add_argument('-t', '--tokenizer', help='tokenizer type', type=str, choices=['spm', 'roberta', 'char'], required=True)
+    parser.add_argument('-o', '--output-dir', help='path to output directory', type=str, default='.')
     args = parser.parse_args()
 
     ugc_sentences = [ line.strip() for line in open(args.ugc_file).readlines() ]
@@ -34,7 +35,15 @@ if __name__ == '__main__':
     X_ugc = normalize(X_ugc)
 
     X_cos = paired_cosine_distances(X_std, X_ugc)
-    X_cos_avg = X_cos.mean()
+
+    outputs = pd.DataFrame(columns=['ugc', 'std', 'cos'])
+    outputs['ugc'] = ugc_sentences
+    outputs['std'] = std_sentences
+    outputs['cos'] = X_cos
+    
+    output_file = os.path.join(args.output_dir, f'outputs_{model_name}.json')
+    outputs.to_json(output_file, orient='index')
+    print('Outputs saved in', output_file)
 
     print(DASHES)
     print('Pairwise cosine distances from', model_name)

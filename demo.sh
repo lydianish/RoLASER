@@ -23,6 +23,7 @@ do
     python evaluation/cos_dist.py -m ${MODEL_DIR[$i]} \
         -t ${TOKENIZER[$i]} \
         --ugc-file $UGC_FILE \
-        --std-file $STD_FILE | tee -a $OUTPUT_DIR/outputs.log
+        --std-file $STD_FILE \
+        -o $OUTPUT_DIR | tee -a $OUTPUT_DIR/outputs.log
 
 done

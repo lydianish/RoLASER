@@ -46,7 +46,7 @@ Dependencies:
 
 ### Examples
 
-#### 1. Sentence Similarity
+#### 1. Sentence Similarity between non-standard UGC sentences and their standard equivalents
 
 Computing pairwise cosine distances between sentence embeddings in Python:
 
@@ -100,10 +100,11 @@ An evaluation script is made available to compute the cosine distances of a file
 ```bash
 cd RoLASER
 
-python evaluation/cos_dist.py -m $MODEL_DIR \
-        -t $TOKENIZER \
-        --ugc-file $UGC_FILE \
-        --std-file $STD_FILE
+python ./evaluation/cos_dist.py -m $MODEL_DIR \
+    -t $TOKENIZER \
+    --ugc-file $UGC_FILE \
+    --std-file $STD_FILE \
+    -o $OUTPUT_DIR
 ```
 
 You can also run the demo script using this command:
@@ -112,7 +113,7 @@ You can also run the demo script using this command:
 bash ./demo.sh
 ```
 
-It will output the pairwise cosine distances of the three example sentences used in the paper for LASER, RoLASER and c-RoLASER, and also append them to a single `outputs/outputs.log` file:
+It will output the pairwise cosine distances of the three example sentences used in the paper for LASER, RoLASER and c-RoLASER. It will write index-oriented JSON files for each model in the output directory, and also append the outputs in a single `outputs/outputs.log` file:
 
 ```
 ----------------------------------------
