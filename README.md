@@ -42,29 +42,94 @@ Dependencies:
 
 - LASER: `git clone https://github.com/lydianish/LASER.git`
 
-```bash
-# to be able to use fairseq files
-FAIRSEQ_PATH=/path/to/fairseq/
-export PYTHONPATH=$PYTHONPATH:$FAIRSEQ_PATH
-
-# to be able to use LASER files
-LASER_PATH=/path/to/LASER/source/
-export PYTHONPATH=$PYTHONPATH:$LASER_PATH
-```
-
 ### Examples
 
-cosine similarity of 2 sentences within python instead ?
+The following demo script (`demo.sh`) is made available to test the models on a few sentences:
+
+```bash
+#!/bin/bash
+
+set -e
+
+UGC_FILE="data/demo_ugc.txt"
+STD_FILE="data/demo_std.txt"
+OUTPUT_DIR="outputs/"
+
+MODELS="LASER RoLASER c-RoLASER"
+
+for MODEL in $MODELS
+do
+    MODEL_DIR=models/${MODEL}
+
+    python evaluation/rolaser.py -m $MODEL_DIR --ugc-file $UGC_FILE --std-file $STD_FILE -o $OUTPUT_DIR
+
+    cat outputs/outputs_${MODEL}.txt | tee -a outputs/outputs.log
+done
+```
+
+Run the demo using this command:
 
 ```bash
 cd RoLASER
 
-# cosine similarity of 2 sentences
-python ./evaluation/rolaser.py $sentence1 $sentence2 -m $model_path -t $tokenizer_path
-
-## average cosine similarity and cross-lingual similarity (xSIM) of 2 files
-python ./evaluation/rolaser.py $file1 $file2 -f -m $model_path -t $tokenizer_path
+bash ./demo.sh
 ```
+
+It will output the pairwise cosine distances of the three example sentences used in the paper for all models (`outputs_LASER.txt`, `outputs_RoLASER.txt`, `outputs_c-RoLASER.txt`) and also append them to a single `outputs.log` file:
+
+```
+----------------------------------------
+Pairwise cosine distances from LASER
+----------------------------------------
+
+c u 2moro
+see you tomorrow
+0.6577198
+
+I love cheese!
+I love cheese!
+0.0
+
+eye wud liek 2 aply 4 vilage idotI would like to apply for village idiot.
+0.56884325
+
+Average across 3 lines: 0.40885433554649353
+
+----------------------------------------
+Pairwise cosine distances from RoLASER
+----------------------------------------
+
+c u 2moro
+see you tomorrow
+0.041529708
+
+I love cheese!
+I love cheese!
+6.3265886e-12
+
+eye wud liek 2 aply 4 vilage idotI would like to apply for village idiot.
+0.21073465
+
+Average across 3 lines: 0.08408811688423157
+
+----------------------------------------
+Pairwise cosine distances from c-RoLASER
+----------------------------------------
+
+c u 2moro
+see you tomorrow
+0.013441907
+
+I love cheese!
+I love cheese!
+0.013131566
+
+eye wud liek 2 aply 4 vilage idotI would like to apply for village idiot.
+0.26292965
+
+Average across 3 lines: 0.09650104492902756
+```
+
 
 ### Pre-trained models
 
