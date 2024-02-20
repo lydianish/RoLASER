@@ -33,16 +33,51 @@ tables?
 ### Installation
 
 Environment:
-- Python >= 3.7
-- Pythorch 1.10.1+cu102
+- Python >= 3.7 (tested with `3.7.16`)
+- CUDA 10.2
 - GCC 11.2
+- Pythorch 1.10.1+cu102
 
 Dependencies:
-
 - Fairseq: `git clone https://github.com/lydianish/fairseq.git`
-
-
 - LASER: `git clone https://github.com/lydianish/LASER.git`
+
+```bash
+# Create conda environment with the required Python and GCC versions
+conda create -n "rolaser_env" python=3.9.18 gxx=11.2.0=h702ea55_10 -c conda-forge
+
+# Activate the conda environment
+conda activate rolaser_env
+
+# Install PyTorch 1.10.1
+pip install torch==1.10.1+cu102 torchvision==0.11.2+cu102 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu102/torch_stable.html
+
+# Install Fairseq and dependencies
+git clone https://github.com/lydianish/fairseq.git
+cd fairseq
+git checkout nllb
+pip install -e .
+python setup.py build_ext --inplace
+pip install numpy==1.21.6 fairscale==0.4.6
+export FAIRSEQ=`pwd` # required environment variable
+
+# Install LASER and dependencies
+cd ..
+git clone https://github.com/lydianish/LASER.git
+cd LASER
+git checkout rolaser
+
+export LASER=`pwd` # required environment variable
+bash ./nllb/download_models.sh swh_Latn 
+bash ./install_external_tools.sh
+pip install faiss-gpu JapaneseTokenizer jieba transliterate tabulate
+
+# Install RoLASER and dependencies
+cd ..
+git clone https://github.com/lydianish/RoLASER.git
+cd RoLASER 
+pip install transformers pandas tensorboardX
+```
 
 ### Examples
 
