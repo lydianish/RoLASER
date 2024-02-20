@@ -113,7 +113,30 @@ You can also run the demo script using this command:
 bash ./demo.sh
 ```
 
-It will output the pairwise cosine distances of the three example sentences used in the paper for LASER, RoLASER and c-RoLASER. It will write index-oriented JSON files for each model in the output directory, and also append the outputs in a single `outputs/outputs.log` file:
+It will output the pairwise cosine distances of the three example sentences used in the paper for LASER, RoLASER and c-RoLASER. It will write index-oriented JSON files for each model in the output directory. 
+
+For example, `outputs_RoLASER.json`:
+```json
+{
+    "0": {
+        "ugc": "c u 2moro",
+        "std": "see you tomorrow",
+        "cos": 0.0415297337
+    },
+    "1": {
+        "ugc": "I love cheese!",
+        "std": "I love cheese!",
+        "cos": 0.0
+    },
+    "2": {
+        "ugc": "eye wud liek 2 aply 4 vilage idot",
+        "std": "I would like to apply for village idiot.",
+        "cos": 0.2107349485
+    }
+}
+```
+
+It will also append the outputs in a single `outputs/outputs.log` file:
 
 ```
 ----------------------------------------
