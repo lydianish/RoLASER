@@ -33,15 +33,18 @@ tables?
 ### Installation
 
 Environment:
-- Python >= 3.7 (tested with `3.7.16`)
+- (Mini)conda
+- Python >= 3.9 (tested with `3.9.18`)
 - CUDA 10.2
 - GCC 11.2
-- Pythorch 1.10.1+cu102
+- Pythorch 1.10.1
 
 Dependencies:
-- Fairseq: `git clone https://github.com/lydianish/fairseq.git`
-- LASER: `git clone https://github.com/lydianish/LASER.git`
+- Fairseq fork: https://github.com/lydianish/fairseq.git
+- LASER fork: https://github.com/lydianish/LASER.git
 
+
+Installation commands:
 ```bash
 # Create conda environment with the required Python and GCC versions
 conda create -n "rolaser_env" python=3.9.18 gxx=11.2.0=h702ea55_10 -c conda-forge
@@ -66,7 +69,6 @@ cd ..
 git clone https://github.com/lydianish/LASER.git
 cd LASER
 git checkout rolaser
-
 export LASER=`pwd` # required environment variable
 bash ./nllb/download_models.sh swh_Latn 
 bash ./install_external_tools.sh
