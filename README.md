@@ -46,7 +46,6 @@ Dependencies:
 Installation commands:
 ```bash
 # Install RoLASER 
-cd ..
 git clone https://github.com/lydianish/RoLASER.git
 cd RoLASER 
 
