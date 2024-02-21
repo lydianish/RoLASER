@@ -43,108 +43,30 @@ Dependencies:
 - Fairseq fork: https://github.com/lydianish/fairseq.git
 - LASER fork: https://github.com/lydianish/LASER.git
 
-
 Installation commands:
 ```bash
+# Install RoLASER 
+cd ..
+git clone https://github.com/lydianish/RoLASER.git
+cd RoLASER 
+
 # Create conda environment with the required Python and GCC versions
 conda create -n "rolaser_env" python=3.9.18 gxx=11.2.0=h702ea55_10 -c conda-forge
 
 # Activate the conda environment
 conda activate rolaser_env
 
-# Install PyTorch 1.10.1
-pip install torch==1.10.1+cu102 torchvision==0.11.2+cu102 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu102/torch_stable.html
-
-# Install Fairseq and dependencies
-git clone https://github.com/lydianish/fairseq.git
-cd fairseq
-git checkout nllb
-pip install -e .
-python setup.py build_ext --inplace
-pip install numpy==1.21.6 fairscale==0.4.6
-export FAIRSEQ=`pwd` # required environment variable
-
-# Install LASER and dependencies
-cd ..
-git clone https://github.com/lydianish/LASER.git
-cd LASER
-git checkout rolaser
-export LASER=`pwd` # required environment variable
-bash ./nllb/download_models.sh swh_Latn 
-bash ./install_external_tools.sh
-pip install faiss-gpu JapaneseTokenizer jieba transliterate tabulate
-
-# Install RoLASER and dependencies
-cd ..
-git clone https://github.com/lydianish/RoLASER.git
-cd RoLASER 
-pip install transformers pandas tensorboardX
+# Install dependencies
+bash ./install.sh
 ```
 
 ### Examples
 
 #### 1. Sentence Similarity between non-standard UGC sentences and their standard equivalents
 
-Computing pairwise cosine distances between sentence embeddings in Python:
+##### a. Demo script
 
-```python
-import sys, os
-
-from sklearn.metrics.pairwise import paired_cosine_distances
-from sklearn.preprocessing import normalize
-
-# Set the path to the fairseq and LASER local repos:
-sys.path.append('/path/to/fairseq')
-os.environ['LASER'] = '/path/to/LASER' # required
-sys.path.append(f"{os.environ['LASER']}/source")
-
-from rolaser import RoLaserEncoder
-
-# Set the model and vocab paths, and pick the corresponding tokenizer type 
-# (spm for LASER, roberta for RoLASER, and char for c-RoLASER ):
-model = "/path/to/model"
-vocab = "/path/to/vocab"
-tokenizer = "spm | roberta | char"
-
-ugc_sentences = [
-    'c u 2moro',
-    'I love cheese!',
-    'eye wud liek 2 aply 4 vilage idot'
-]
-
-std_sentences = [
-    'see you tomorrow',
-    'I love cheese!',
-    'I would like to apply for village idiot.'
-]
-
-model = RoLaserEncoder(model_path=model, vocab=vocab, tokenizer=tokenizer)
-    
-X_std = model.encode(std_sentences)
-X_std = normalize(X_std)
-X_ugc = model.encode(ugc_sentences)
-X_ugc = normalize(X_ugc)
-
-X_cos = paired_cosine_distances(X_std, X_ugc)
-X_cos_avg = X_cos.mean()
-
-print('Average paired cosine distance', X_cos_avg)
-```
-
-
-An evaluation script is made available to compute the cosine distances of a file line by line (`evaluation/cos_dist.py`). Use the following command to call it:
-
-```bash
-cd RoLASER
-
-python ./evaluation/cos_dist.py -m $MODEL_DIR \
-    -t $TOKENIZER \
-    --ugc-file $UGC_FILE \
-    --std-file $STD_FILE \
-    -o $OUTPUT_DIR
-```
-
-You can also run the demo script using this command:
+You can run the demo script using this command:
 
 ```bash
 bash ./demo.sh
@@ -226,8 +148,70 @@ I would like to apply for village idiot.
 0.26292953
 
 Average across 3 sentences: 0.10057483
-
 ```
+
+##### b. Computing pairwise cosine distances between sentence embeddings with Python:
+
+An evaluation script is made available to compute the cosine distances of a file line by line (`evaluation/cos_dist.py`). Use the following command to call it:
+
+```bash
+python ./evaluation/cos_dist.py -m $MODEL_DIR \
+    -t $TOKENIZER \
+    --ugc-file $UGC_FILE \
+    --std-file $STD_FILE \
+    -o $OUTPUT_DIR
+```
+
+You can also modify your own Python script:
+
+```python
+import sys, os
+
+from sklearn.metrics.pairwise import paired_cosine_distances
+from sklearn.preprocessing import normalize
+
+# Set the path to the fairseq and LASER local repos:
+# Normally, the environment variables are defined during installation
+# If not, you can set them here:
+# os.environ['FAIRSEQ'] = '/path/to/fairseq'
+# os.environ['LASER'] = '/path/to/LASER'
+
+sys.path.append(os.environ['FAIRSEQ'])
+sys.path.append(f"{os.environ['LASER']}/source")
+
+from rolaser import RoLaserEncoder
+
+# Set the model and vocab paths, and pick the corresponding tokenizer type 
+# (spm for LASER, roberta for RoLASER, and char for c-RoLASER ):
+model = "/path/to/model"
+vocab = "/path/to/vocab"
+tokenizer = "spm | roberta | char"
+
+ugc_sentences = [
+    'c u 2moro',
+    'I love cheese!',
+    'eye wud liek 2 aply 4 vilage idot'
+]
+
+std_sentences = [
+    'see you tomorrow',
+    'I love cheese!',
+    'I would like to apply for village idiot.'
+]
+
+model = RoLaserEncoder(model_path=model, vocab=vocab, tokenizer=tokenizer)
+    
+X_std = model.encode(std_sentences)
+X_std = normalize(X_std)
+X_ugc = model.encode(ugc_sentences)
+X_ugc = normalize(X_ugc)
+
+X_cos = paired_cosine_distances(X_std, X_ugc)
+X_cos_avg = X_cos.mean()
+
+print('Average paired cosine distance', X_cos_avg)
+```
+
 
 
 ### Pre-trained models
