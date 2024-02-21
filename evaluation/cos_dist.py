@@ -19,6 +19,7 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--model-dir', help='path to model directory', type=str, required=True)
     parser.add_argument('-t', '--tokenizer', help='tokenizer type', type=str, choices=['spm', 'roberta', 'char'], required=True)
     parser.add_argument('-o', '--output-dir', help='path to output directory', type=str, default='.')
+    parser.add_argument('-v', '--verbose', help='print scores line by line', type=bool, default=False)
     args = parser.parse_args()
 
     ugc_sentences = [ line.strip() for line in open(args.ugc_file).readlines() ]
@@ -50,12 +51,13 @@ if __name__ == '__main__':
     print('Pairwise cosine distances from', model_name)
     print(DASHES)
 
-    for ugc, std, cos in zip(ugc_sentences, std_sentences, X_cos):
-        print(ugc)
-        print(std)
-        print(cos)
-        print()
-    
+    if args.verbose:
+        for ugc, std, cos in zip(ugc_sentences, std_sentences, X_cos):
+            print(ugc)
+            print(std)
+            print(cos)
+            print()
+        
     print("Average across", str(X_cos.size), "sentences:", X_cos.mean())
     print()
     

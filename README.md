@@ -6,7 +6,7 @@ From the paper Making Sentence Embeddings Robust to User-Generated Content.
 
 1. [Introduction](#introduction)
 2. [Usage](#usage)
-3. [Reproduction](#reproduction)
+3. [Reproduction](#reproduction) 
 4. [Citation](#citation)
 
 
@@ -158,7 +158,8 @@ python ./evaluation/cos_dist.py -m $MODEL_DIR \
     -t $TOKENIZER \
     --ugc-file $UGC_FILE \
     --std-file $STD_FILE \
-    -o $OUTPUT_DIR
+    -o $OUTPUT_DIR \
+    --verbose
 ```
 
 You can also modify your own Python script:
@@ -211,14 +212,13 @@ X_cos_avg = X_cos.mean()
 print('Average paired cosine distance', X_cos_avg)
 ```
 
-
-
 ### Pre-trained models
 
-link to download models + tokenizers?
+link to download models + tokenizers? (add them to installation script)
 
 ## 3. Reproduction <a name="reproduction"></a>
 
+<!--
 link to download preprocessed data
 
 Training
@@ -243,6 +243,7 @@ Evaluation
     - rocsmt
     - mteb
 - plot sentences
+-->
 
 ## 4. Citation <a name="citation"></a>
 

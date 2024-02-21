@@ -24,6 +24,7 @@ do
         -t ${TOKENIZER[$i]} \
         --ugc-file $UGC_FILE \
         --std-file $STD_FILE \
-        -o $OUTPUT_DIR | tee -a $OUTPUT_DIR/outputs.log
+        -o $OUTPUT_DIR \
+        --verbose | tee -a $OUTPUT_DIR/outputs.log
 
 done
