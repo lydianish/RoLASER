@@ -6,27 +6,23 @@ From the paper Making Sentence Embeddings Robust to User-Generated Content.
 
 1. [Introduction](#introduction)
 2. [Usage](#usage)
-3. [Reproduction](#reproduction) 
+3. [Reproducing results](#reproducing) 
 4. [Citation](#citation)
 
 
 ## 1. Introduction <a name="introduction"></a>
 
 <p align="center">
-  <img alt="Teacher-Student distillation of LASER" width="500" src="./img/robust-laser.png">
+  <img alt="Teacher-Student approach" width="500" src="./img/robust-laser.png">
 </p>
       
-RoLASER is a sentence embedding model trained by distillation of LASER to be robust to user-generated content (UGC). Examples of such content are social media posts, which are known to present a lot of lexical variations (spelling errors, internet slang, abbreviations, ...). RoLASER maps non-standard UGC sentences close to their standard versions in the LASER embedding space, just as the original LASER encoder maps paraphrases and translations close to each other.
+RoLASER is a sentence embedding model trained using a teacher-student approach (with LASER as the teacher) to be robust to English user-generated content (UGC). Examples of such content are social media posts, which are known to present a lot of lexical variations (spelling errors, internet slang, abbreviations, ...). RoLASER maps non-standard UGC sentences close to their standard versions in the LASER embedding space, just as the original LASER encoder maps paraphrases and translations close to each other.
 
-### Examples
 
-Example cosine distance between std and ugc sentence for LASER and Rolaser
+From the paper [Making Sentence Embeddings Robust to User-Generated Content](https://hal.science/hal-04520909).
 
-add plot of rocsmt sentences
+The models are available [here](https://zenodo.org/records/10864557).
 
-### Results
-
-tables?
 
 ## 2. Usage <a name="usage"></a>
 
@@ -57,6 +53,9 @@ conda activate rolaser_env
 
 # Install dependencies
 bash ./install.sh
+
+# Download models
+bash ./download_models.sh
 ```
 
 ### Examples
@@ -216,7 +215,9 @@ print('Average paired cosine distance', X_cos_avg)
 
 link to download models + tokenizers? (add them to installation script)
 
-## 3. Reproduction <a name="reproduction"></a>
+## 3. Reproducing results <a name="reproducing"></a>
+
+Coming soon
 
 <!--
 link to download preprocessed data

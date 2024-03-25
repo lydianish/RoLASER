@@ -20,10 +20,11 @@ git clone https://github.com/lydianish/LASER.git
 cd LASER
 git checkout rolaser
 export LASER=`pwd` # required environment variable
-bash ./nllb/download_models.sh no_laser3 
 bash ./install_external_tools.sh
 pip install faiss-gpu JapaneseTokenizer jieba transliterate tabulate
 
 # Install other RoLASER dependencies
 cd .. # back to RoLASER directory
 pip install transformers pandas tensorboardX
+
+echo Done...
