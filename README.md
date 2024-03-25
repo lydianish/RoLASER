@@ -21,8 +21,6 @@ RoLASER is a sentence embedding model trained using a teacher-student approach (
 
 From the paper [Making Sentence Embeddings Robust to User-Generated Content](https://hal.science/hal-04520909).
 
-The models are available [here](https://zenodo.org/records/10864557).
-
 
 ## 2. Usage <a name="usage"></a>
 
@@ -213,7 +211,7 @@ print('Average paired cosine distance', X_cos_avg)
 
 ### Pre-trained models
 
-link to download models + tokenizers? (add them to installation script)
+The models are available [here](https://zenodo.org/records/10864557).
 
 ## 3. Reproducing results <a name="reproducing"></a>
 
@@ -248,3 +246,6 @@ Evaluation
 
 ## 4. Citation <a name="citation"></a>
 
+```bibtex
+Lydia Nishimwe, Benoît Sagot, Rachel Bawden. Making Sentence Embeddings Robust to User-Generated Content. 2024. ⟨hal-04520909⟩
+```
