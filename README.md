@@ -243,5 +243,16 @@ Evaluation
 ## 4. Citation <a name="citation"></a>
 
 ```bibtex
-Lydia Nishimwe, Benoît Sagot, Rachel Bawden. Making Sentence Embeddings Robust to User-Generated Content. 2024.
+@unpublished{nishimwe:hal-04520909,
+  TITLE = {{Making Sentence Embeddings Robust to User-Generated Content}},
+  AUTHOR = {Nishimwe, Lydia and Sagot, Beno{\^i}t and Bawden, Rachel},
+  URL = {https://hal.science/hal-04520909},
+  NOTE = {Accepted at LREC-COLING 2024},
+  YEAR = {2024},
+  MONTH = Mar,
+  KEYWORDS = {sentence embeddings ; robustness ; user-generated content (UGC)},
+  PDF = {https://hal.science/hal-04520909/file/Lydia_Nishimwe_LREC_COLING_2024.pdf},
+  HAL_ID = {hal-04520909},
+  HAL_VERSION = {v1},
+}
 ```
