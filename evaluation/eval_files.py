@@ -3,8 +3,9 @@ import sys, os, argparse
 from sklearn.metrics.pairwise import paired_cosine_distances
 from sklearn.preprocessing import normalize
 
-sys.path.append('/home/lnishimw/scratch/fairseq')
-os.environ['LASER'] = '/home/lnishimw/scratch/LASER' # required
+assert os.environ.get('FAIRSEQ') and os.environ.get('LASER'), 'Please set the FAIRSEQ and LASER environment variables'
+
+sys.path.append(os.environ['FAIRSEQ'])
 sys.path.append(f"{os.environ['LASER']}/source")
 
 from embed import EmbedLoad, embed_sentences

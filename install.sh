@@ -13,6 +13,7 @@ pip install -e .
 python setup.py build_ext --inplace
 pip install numpy==1.21.6 fairscale==0.4.6
 export FAIRSEQ=`pwd` # required environment variable
+echo FAIRSEQ=$FAIRSEQ >> ~/.bashrc
 
 # Install LASER and dependencies
 cd .. # back to RoLASER directory
@@ -20,6 +21,7 @@ git clone https://github.com/lydianish/LASER.git
 cd LASER
 git checkout rolaser
 export LASER=`pwd` # required environment variable
+echo LASER=$LASER >> ~/.bashrc
 bash ./install_external_tools.sh
 pip install faiss-gpu JapaneseTokenizer jieba transliterate tabulate
 

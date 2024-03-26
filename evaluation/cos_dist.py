@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.metrics.pairwise import paired_cosine_distances
 from sklearn.preprocessing import normalize
 
-assert os.environ.get('FAIRSEQ') and os.environ.get('LASER'), 'Please set the FAIRSEQ and LASER enviornment variables'
+assert os.environ.get('FAIRSEQ') and os.environ.get('LASER'), 'Please set the FAIRSEQ and LASER environment variables'
 
 sys.path.append(os.environ['FAIRSEQ'])
 sys.path.append(f"{os.environ['LASER']}/source")

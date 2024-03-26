@@ -1,6 +1,6 @@
 # RoLASER: A Robust LASER Encoder for English User-Generated Content
 
-From the paper Making Sentence Embeddings Robust to User-Generated Content.
+From the paper [Making Sentence Embeddings Robust to User-Generated Content (Nishimwe et al., 2024)](https://hal.science/hal-04520909).
 
 ## Table of Contents
 
@@ -18,10 +18,6 @@ From the paper Making Sentence Embeddings Robust to User-Generated Content.
       
 RoLASER is a sentence embedding model trained using a teacher-student approach (with LASER as the teacher) to be robust to English user-generated content (UGC). Examples of such content are social media posts, which are known to present a lot of lexical variations (spelling errors, internet slang, abbreviations, ...). RoLASER maps non-standard UGC sentences close to their standard versions in the LASER embedding space, just as the original LASER encoder maps paraphrases and translations close to each other.
 
-
-From the paper [Making Sentence Embeddings Robust to User-Generated Content](https://hal.science/hal-04520909).
-
-
 ## 2. Usage <a name="usage"></a>
 
 ### Installation
@@ -34,8 +30,8 @@ Environment:
 - Pythorch 1.10.1
 
 Dependencies:
-- Fairseq fork: https://github.com/lydianish/fairseq.git
-- LASER fork: https://github.com/lydianish/LASER.git
+- Fairseq fork: https://github.com/lydianish/fairseq
+- LASER fork: https://github.com/lydianish/LASER
 
 Installation commands:
 ```bash
@@ -211,7 +207,7 @@ print('Average paired cosine distance', X_cos_avg)
 
 ### Pre-trained models
 
-The models are available [here](https://zenodo.org/records/10864557).
+The models, tokenizers and vocabulary files for LASER, RoLASER and c-RoLASER are available [here](https://zenodo.org/records/10864557).
 
 ## 3. Reproducing results <a name="reproducing"></a>
 
@@ -247,5 +243,5 @@ Evaluation
 ## 4. Citation <a name="citation"></a>
 
 ```bibtex
-Lydia Nishimwe, Benoît Sagot, Rachel Bawden. Making Sentence Embeddings Robust to User-Generated Content. 2024. ⟨hal-04520909⟩
+Lydia Nishimwe, Benoît Sagot, Rachel Bawden. Making Sentence Embeddings Robust to User-Generated Content. 2024.
 ```
