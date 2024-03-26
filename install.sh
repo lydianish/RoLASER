@@ -27,6 +27,6 @@ pip install faiss-gpu JapaneseTokenizer jieba transliterate tabulate
 
 # Install other RoLASER dependencies
 cd .. # back to RoLASER directory
-pip install transformers pandas tensorboardX
+pip install transformers pandas tensorboardX matplotlib seaborn
 
 echo Done...

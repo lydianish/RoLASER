@@ -13,7 +13,7 @@ From the paper [Making Sentence Embeddings Robust to User-Generated Content (Nis
 ## 1. Introduction <a name="introduction"></a>
 
 <p align="center">
-  <img alt="Teacher-Student approach" width="500" src="./img/robust-laser.png">
+  <img alt="Teacher-Student approach" width="500" src="./img/robust_laser.png">
 </p>
       
 RoLASER is a sentence embedding model trained using a teacher-student approach (with LASER as the teacher) to be robust to English user-generated content (UGC). Examples of such content are social media posts, which are known to present a lot of lexical variations (spelling errors, internet slang, abbreviations, ...). RoLASER maps non-standard UGC sentences close to their standard versions in the LASER embedding space, just as the original LASER encoder maps paraphrases and translations close to each other.
@@ -62,7 +62,7 @@ Run the demo script using this command:
 bash ./demo.sh
 ```
 
-It will output the pairwise cosine distances of the 4 example sentences used in the paper for LASER, RoLASER and c-RoLASER. It will write index-oriented JSON files for each model in the output directory. 
+It will output the pairwise cosine distances of the 4 example sentences used in the paper for LASER, RoLASER and c-RoLASER. It will write index-oriented JSON files for each model in the output directory `outputs/demo/``. 
 
 For example, `outputs_rolaser.json`:
 ```json
@@ -90,16 +90,25 @@ For example, `outputs_rolaser.json`:
 }
 ```
 
-It will also append the outputs from the 3 models in a single `outputs/outputs.log` file.
+It will also save the following files:
+- `all_scores.csv`
+- `outputs.log` 
+- `scores_summary.csv`
+- `cosine_distance.png``
+
+Here is the boxplot of cosine distances from the 4 example sentences:
+
+<p align="center">
+  <img alt="Cosine distance boxplot" width="400" src="./img/cosine_distance.png">
+</p>
+
 
 #### b. Computing pairwise cosine distances between sentence embeddings with Python:
 
 An evaluation script is made available to compute the cosine distances of a file line by line (`evaluation/cos_dist.py`). Use the following command to call it:
 
 ```bash
-python ./evaluation/cos_dist.py -m $MODEL_NAME \
-    -d $MODEL_DIR \
-    -t $TOKENIZER \
+python ./evaluation/cos_dist.py -m $MODEL \
     --ugc-file $UGC_FILE \
     --std-file $STD_FILE \
     -o $OUTPUT_DIR \

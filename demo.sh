@@ -2,11 +2,9 @@
 
 set -e
 
-UGC_FILE=/home/lnishimw/scratch/datasets/rocsmt/test/norm.en.test
-# UGC_FILE="data/demo_ugc.txt"
-STD_FILE=/home/lnishimw/scratch/datasets/rocsmt/test/raw.en.test 
-# STD_FILE="data/demo_std.txt"
-OUTPUT_DIR="outputs"
+UGC_FILE="data/demo/demo_ugc.txt"
+STD_FILE="data/demo/demo_std.txt"
+OUTPUT_DIR="outputs/demo"
 
 mkdir -p $OUTPUT_DIR
 
@@ -28,5 +26,9 @@ do
         --verbose | tee -a $OUTPUT_DIR/outputs.log
 
 done
+
+echo Averaging and plotting all scores...
+
+python evaluation/avg_cos_dist.py -o $OUTPUT_DIR
 
 echo Done...
