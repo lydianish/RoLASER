@@ -16,20 +16,26 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--ugc-file', help='path to UGC data file', type=str, default='./data/demo_ugc.txt')
     parser.add_argument('--std-file', help='path to standard data file', type=str, default='./data/demo_std.txt')
-    parser.add_argument('-m', '--model-name', help='model name', type=str)
-    parser.add_argument('-d', '--model-dir', help='path to model directory', type=str)
-    parser.add_argument('-t', '--tokenizer', help='tokenizer type', type=str, choices=['spm', 'roberta', 'char'], required=True)
+    parser.add_argument('-m', '--model', help='path to model checkpoint', type=str, required=True)
     parser.add_argument('-o', '--output-dir', help='path to output directory', type=str, default='.')
     parser.add_argument('-v', '--verbose', help='print scores line by line', action='store_true')
     args = parser.parse_args()
 
     ugc_sentences = [ line.strip() for line in open(args.ugc_file).readlines() ]
     std_sentences = [ line.strip() for line in open(args.std_file).readlines() ]
-    
-    model = [f.path for f in os.scandir(args.model_dir) if f.path.endswith('.pt')][0]
-    vocab = [f.path for f in os.scandir(args.model_dir) if f.path.endswith('.cvocab')][0]
 
-    model = RoLaserEncoder(model_path=model, vocab=vocab, tokenizer=args.tokenizer)
+    model_name = os.path.basename(args.model).split('.')[0]
+    if model_name.lower() == 'laser2':
+        tokenizer = 'spm'
+    elif model_name.lower() == 'rolaser':
+        tokenizer = 'roberta'
+    elif model_name.lower() == 'c-rolaser':
+        tokenizer  = 'char'
+    else:
+        raise ValueError(f'Unknown model: {model_name}')
+
+    vocab = args.model.replace('.pt', '.cvocab')
+    model = RoLaserEncoder(model_path=args.model, vocab=vocab, tokenizer=tokenizer)
     
     X_std = model.encode(std_sentences)
     X_std = normalize(X_std)
@@ -43,12 +49,12 @@ if __name__ == '__main__':
     outputs['std'] = std_sentences
     outputs['cos'] = X_cos
     
-    output_file = os.path.join(args.output_dir, f'outputs_{args.model_name}.json')
+    output_file = os.path.join(args.output_dir, f'outputs_{model_name}.json')
     outputs.to_json(output_file, orient='index')
     print('Outputs saved in', output_file)
 
     print(DASHES)
-    print('Pairwise cosine distances from', args.model_name)
+    print('Pairwise cosine distances from', model_name)
     print(DASHES)
 
     if args.verbose:

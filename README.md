@@ -64,7 +64,7 @@ bash ./demo.sh
 
 It will output the pairwise cosine distances of the 4 example sentences used in the paper for LASER, RoLASER and c-RoLASER. It will write index-oriented JSON files for each model in the output directory. 
 
-For example, `outputs_RoLASER.json`:
+For example, `outputs_rolaser.json`:
 ```json
 {
     "0": {
