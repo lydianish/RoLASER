@@ -52,13 +52,11 @@ bash ./install.sh
 bash ./download_models.sh
 ```
 
-### Examples
+### Example: Cosine distance between non-standard UGC sentences and their standard equivalents
 
-#### 1. Sentence Similarity between non-standard UGC sentences and their standard equivalents
+#### a. Demo script
 
-##### a. Demo script
-
-You can run the demo script using this command:
+Run the demo script using this command:
 
 ```bash
 bash ./demo.sh
@@ -92,76 +90,9 @@ For example, `outputs_RoLASER.json`:
 }
 ```
 
-It will also append the outputs in a single `outputs/outputs.log` file:
+It will also append the outputs from the 3 models in a single `outputs/outputs.log` file.
 
-```
-----------------------------------------
-Pairwise cosine distances from LASER
-----------------------------------------
-if i cnt afford the real deal , i ain’t buying nuffin fake .. i just won’t have it
-if i can’t afford the real deal , i ain’t buying nothing fake .. i just won’t have it
-0.06405665
-
-Umm idk, maybe its bc we’re DIFFERENT PEOPLE with DIFFERENT BODIES???
-Um, I don’t know, maybe it’s because we’re different people with different bodies?
-0.1283188
-
-" Luckily nthing happened 2 me , but I saw a macabre scene , as ppl triwd 2 break windows in order 2 gt out .
-"Luckily nothing happened to me, but I saw a macabre scene, as people tried to break windows in order to get out.
-0.031899698
-
-I then lost interest in her bc her IG wasn't that interesting.
-I then lost interest in her, because her Instagram wasn’t that interesting.
-0.049577083
-
-Average across 4 sentences: 0.06846306
-
-Outputs saved in outputs/outputs_RoLASER.json
-----------------------------------------
-Pairwise cosine distances from RoLASER
-----------------------------------------
-if i cnt afford the real deal , i ain’t buying nuffin fake .. i just won’t have it
-if i can’t afford the real deal , i ain’t buying nothing fake .. i just won’t have it
-0.046205297
-
-Umm idk, maybe its bc we’re DIFFERENT PEOPLE with DIFFERENT BODIES???
-Um, I don’t know, maybe it’s because we’re different people with different bodies?
-0.27931717
-
-" Luckily nthing happened 2 me , but I saw a macabre scene , as ppl triwd 2 break windows in order 2 gt out .
-"Luckily nothing happened to me, but I saw a macabre scene, as people tried to break windows in order to get out.
-0.009111315
-
-I then lost interest in her bc her IG wasn't that interesting.
-I then lost interest in her, because her Instagram wasn’t that interesting.
-0.0059972415
-
-Average across 4 sentences: 0.08515776
-
-Outputs saved in outputs/outputs_c-RoLASER.json
-----------------------------------------
-Pairwise cosine distances from c-RoLASER
-----------------------------------------
-if i cnt afford the real deal , i ain’t buying nuffin fake .. i just won’t have it
-if i can’t afford the real deal , i ain’t buying nothing fake .. i just won’t have it
-0.06239307
-
-Umm idk, maybe its bc we’re DIFFERENT PEOPLE with DIFFERENT BODIES???
-Um, I don’t know, maybe it’s because we’re different people with different bodies?
-0.27105206
-
-" Luckily nthing happened 2 me , but I saw a macabre scene , as ppl triwd 2 break windows in order 2 gt out .
-"Luckily nothing happened to me, but I saw a macabre scene, as people tried to break windows in order to get out.
-0.0016930981
-
-I then lost interest in her bc her IG wasn't that interesting.
-I then lost interest in her, because her Instagram wasn’t that interesting.
-0.02153838
-
-Average across 4 sentences: 0.08916915
-```
-
-##### b. Computing pairwise cosine distances between sentence embeddings with Python:
+#### b. Computing pairwise cosine distances between sentence embeddings with Python:
 
 An evaluation script is made available to compute the cosine distances of a file line by line (`evaluation/cos_dist.py`). Use the following command to call it:
 

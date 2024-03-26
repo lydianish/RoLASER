@@ -22,18 +22,18 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--ugc-file', help='name of UGC data file', type=str, default='./data/demo_ugc.txt')
     parser.add_argument('--std-file', help='name of standard data file', type=str, default='.data/demo_std.txt')
-    parser.add_argument('-m', '--model-dir', help='path to model directory', type=str)
+    parser.add_argument('-m', '--model-name', help='model name', type=str)
+    parser.add_argument('-d', '--model-dir', help='path to model directory', type=str)
     parser.add_argument('-o', '--output-dir', help='path to directory to save embeddings and results', type=str)
     args = parser.parse_args()
 
-    model_name = os.path.basename(args.model_dir)
     model = [f.path for f in os.scandir(args.model_dir) if f.path.endswith('.pt')][0]
     tokenizer = [f.path for f in os.scandir(args.model_dir) if f.path.endswith('-tokenizer.py')][0]
     vocab = [f.path for f in os.scandir(args.model_dir) if f.path.endswith('.cvocab')][0]
     
-    embed_dir = os.path.join(args.output_dir, 'embeddings', model_name)
+    embed_dir = os.path.join(args.output_dir, 'embeddings', args.model_name)
     os.makedirs(embed_dir, exist_ok=True)
-    output_file = os.path.join(args.output_dir, f'outputs_{model_name}.txt')
+    output_file = os.path.join(args.output_dir, f'outputs_{args.model_name}.txt')
 
     ugc_filename = os.path.basename(args.ugc_file)
     std_filename = os.path.basename(args.std_file)
@@ -61,17 +61,17 @@ if __name__ == '__main__':
             output=std_embed_file
         )
 
-    X_std = read_embeddings(std_embed_file, normalized=True)
-    X_ugc = read_embeddings(ugc_embed_file, normalized=True)
+    X_std = read_embeddings(std_embed_file, normalized=False)
+    X_ugc = read_embeddings(ugc_embed_file, normalized=False)
 
     X_cos = paired_cosine_distances(X_std, X_ugc)
     X_cos_avg = X_cos.mean()
 
-    print('Computing pairwise cosine distances from', model_name)
+    print('Computing pairwise cosine distances from', args.model_name)
     with open(args.ugc_file) as f_ugc, open(args.std_file) as f_std, open(output_file, 'w') as f_out:
         n = 0
         f_out.write(DASHES + '\n')
-        f_out.write(f'Pairwise cosine distances from {model_name}\n')
+        f_out.write(f'Pairwise cosine distances from {args.model_name}\n')
         f_out.write(DASHES + '\n')
         for ugc_line, std_line, cos in zip(f_ugc, f_std, X_cos):
             f_out.write('\n')
