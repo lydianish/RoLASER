@@ -16,16 +16,20 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--ugc-file', help='path to UGC data file', type=str, default='./data/demo_ugc.txt')
     parser.add_argument('--std-file', help='path to standard data file', type=str, default='./data/demo_std.txt')
-    parser.add_argument('-m', '--model-dir', help='path to model directory', type=str, required=True)
+    parser.add_argument('-m', '--model-name', help='model name', type=str)
+    parser.add_argument('-d', '--model-dir', help='path to model directory', type=str, required=True)
     parser.add_argument('-t', '--tokenizer', help='tokenizer type', type=str, choices=['spm', 'roberta', 'char'], required=True)
     parser.add_argument('-o', '--output-dir', help='path to output directory', type=str, default='.')
-    parser.add_argument('-v', '--verbose', help='print scores line by line', type=bool, default=False)
+    parser.add_argument('-v', '--verbose', help='print scores line by line', action='store_true')
     args = parser.parse_args()
 
     ugc_sentences = [ line.strip() for line in open(args.ugc_file).readlines() ]
     std_sentences = [ line.strip() for line in open(args.std_file).readlines() ]
     
-    model_name = os.path.basename(args.model_dir)
+    if args.model_name:
+        model_name = args.model_name
+    else:
+        model_name = os.path.basename(args.model_dir)
     model = [f.path for f in os.scandir(args.model_dir) if f.path.endswith('.pt')][0]
     vocab = [f.path for f in os.scandir(args.model_dir) if f.path.endswith('.cvocab')][0]
 

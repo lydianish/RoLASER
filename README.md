@@ -64,25 +64,30 @@ You can run the demo script using this command:
 bash ./demo.sh
 ```
 
-It will output the pairwise cosine distances of the three example sentences used in the paper for LASER, RoLASER and c-RoLASER. It will write index-oriented JSON files for each model in the output directory. 
+It will output the pairwise cosine distances of the 4 example sentences used in the paper for LASER, RoLASER and c-RoLASER. It will write index-oriented JSON files for each model in the output directory. 
 
 For example, `outputs_RoLASER.json`:
 ```json
 {
     "0": {
-        "ugc": "c u 2moro",
-        "std": "see you tomorrow",
-        "cos": 0.0415297337
+        "ugc": "if i cnt afford the real deal , i ain\u2019t buying nuffin fake .. i just won\u2019t have it",
+        "std": "if i can\u2019t afford the real deal , i ain\u2019t buying nothing fake .. i just won\u2019t have it",
+        "cos": 0.0462052971
     },
     "1": {
-        "ugc": "I love cheese!",
-        "std": "I love cheese!",
-        "cos": 0.0
+        "ugc": "Umm idk, maybe its bc we\u2019re DIFFERENT PEOPLE with DIFFERENT BODIES???",
+        "std": "Um, I don\u2019t know, maybe it\u2019s because we\u2019re different people with different bodies?",
+        "cos": 0.2793171704
     },
     "2": {
-        "ugc": "eye wud liek 2 aply 4 vilage idot",
-        "std": "I would like to apply for village idiot.",
-        "cos": 0.2107349485
+        "ugc": "\" Luckily nthing happened 2 me , but I saw a macabre scene , as ppl triwd 2 break windows in order 2 gt out .",
+        "std": "\"Luckily nothing happened to me, but I saw a macabre scene, as people tried to break windows in order to get out.",
+        "cos": 0.009111315
+    },
+    "3": {
+        "ugc": "I then lost interest in her bc her IG wasn't that interesting.",
+        "std": "I then lost interest in her, because her Instagram wasn\u2019t that interesting.",
+        "cos": 0.0059972415
     }
 }
 ```
@@ -93,53 +98,67 @@ It will also append the outputs in a single `outputs/outputs.log` file:
 ----------------------------------------
 Pairwise cosine distances from LASER
 ----------------------------------------
-c u 2moro
-see you tomorrow
-0.6577198
+if i cnt afford the real deal , i ain’t buying nuffin fake .. i just won’t have it
+if i can’t afford the real deal , i ain’t buying nothing fake .. i just won’t have it
+0.06405665
 
-I love cheese!
-I love cheese!
-0.0
+Umm idk, maybe its bc we’re DIFFERENT PEOPLE with DIFFERENT BODIES???
+Um, I don’t know, maybe it’s because we’re different people with different bodies?
+0.1283188
 
-eye wud liek 2 aply 4 vilage idot
-I would like to apply for village idiot.
-0.56884325
+" Luckily nthing happened 2 me , but I saw a macabre scene , as ppl triwd 2 break windows in order 2 gt out .
+"Luckily nothing happened to me, but I saw a macabre scene, as people tried to break windows in order to get out.
+0.031899698
 
-Average across 3 sentences: 0.40885434
+I then lost interest in her bc her IG wasn't that interesting.
+I then lost interest in her, because her Instagram wasn’t that interesting.
+0.049577083
 
+Average across 4 sentences: 0.06846306
+
+Outputs saved in outputs/outputs_RoLASER.json
 ----------------------------------------
 Pairwise cosine distances from RoLASER
 ----------------------------------------
-c u 2moro
-see you tomorrow
-0.041529734
+if i cnt afford the real deal , i ain’t buying nuffin fake .. i just won’t have it
+if i can’t afford the real deal , i ain’t buying nothing fake .. i just won’t have it
+0.046205297
 
-I love cheese!
-I love cheese!
-0.0
+Umm idk, maybe its bc we’re DIFFERENT PEOPLE with DIFFERENT BODIES???
+Um, I don’t know, maybe it’s because we’re different people with different bodies?
+0.27931717
 
-eye wud liek 2 aply 4 vilage idot
-I would like to apply for village idiot.
-0.21073495
+" Luckily nthing happened 2 me , but I saw a macabre scene , as ppl triwd 2 break windows in order 2 gt out .
+"Luckily nothing happened to me, but I saw a macabre scene, as people tried to break windows in order to get out.
+0.009111315
 
-Average across 3 sentences: 0.08408823
+I then lost interest in her bc her IG wasn't that interesting.
+I then lost interest in her, because her Instagram wasn’t that interesting.
+0.0059972415
 
+Average across 4 sentences: 0.08515776
+
+Outputs saved in outputs/outputs_c-RoLASER.json
 ----------------------------------------
 Pairwise cosine distances from c-RoLASER
 ----------------------------------------
-c u 2moro
-see you tomorrow
-0.038794976
+if i cnt afford the real deal , i ain’t buying nuffin fake .. i just won’t have it
+if i can’t afford the real deal , i ain’t buying nothing fake .. i just won’t have it
+0.06239307
 
-I love cheese!
-I love cheese!
-0.0
+Umm idk, maybe its bc we’re DIFFERENT PEOPLE with DIFFERENT BODIES???
+Um, I don’t know, maybe it’s because we’re different people with different bodies?
+0.27105206
 
-eye wud liek 2 aply 4 vilage idot
-I would like to apply for village idiot.
-0.26292953
+" Luckily nthing happened 2 me , but I saw a macabre scene , as ppl triwd 2 break windows in order 2 gt out .
+"Luckily nothing happened to me, but I saw a macabre scene, as people tried to break windows in order to get out.
+0.0016930981
 
-Average across 3 sentences: 0.10057483
+I then lost interest in her bc her IG wasn't that interesting.
+I then lost interest in her, because her Instagram wasn’t that interesting.
+0.02153838
+
+Average across 4 sentences: 0.08916915
 ```
 
 ##### b. Computing pairwise cosine distances between sentence embeddings with Python:
@@ -147,7 +166,8 @@ Average across 3 sentences: 0.10057483
 An evaluation script is made available to compute the cosine distances of a file line by line (`evaluation/cos_dist.py`). Use the following command to call it:
 
 ```bash
-python ./evaluation/cos_dist.py -m $MODEL_DIR \
+python ./evaluation/cos_dist.py -m $MODEL_NAME \
+    -d $MODEL_DIR \
     -t $TOKENIZER \
     --ugc-file $UGC_FILE \
     --std-file $STD_FILE \
@@ -181,15 +201,17 @@ vocab = "/path/to/vocab"
 tokenizer = "spm | roberta | char"
 
 ugc_sentences = [
-    'c u 2moro',
-    'I love cheese!',
-    'eye wud liek 2 aply 4 vilage idot'
+    "if i cnt afford the real deal , i ain’t buying nuffin fake .. i just won’t have it",
+    "Umm idk, maybe its bc we’re DIFFERENT PEOPLE with DIFFERENT BODIES???",
+    '" Luckily nthing happened 2 me , but I saw a macabre scene , as ppl triwd 2 break windows in order 2 gt out .',
+    "I then lost interest in her bc her IG wasn't that interesting."
 ]
 
 std_sentences = [
-    'see you tomorrow',
-    'I love cheese!',
-    'I would like to apply for village idiot.'
+    "if i can’t afford the real deal , i ain’t buying nothing fake .. i just won’t have it",
+    "Um, I don’t know, maybe it’s because we’re different people with different bodies?",
+    '"Luckily nothing happened to me, but I saw a macabre scene, as people tried to break windows in order to get out.',
+    "I then lost interest in her, because her Instagram wasn’t that interesting."
 ]
 
 model = RoLaserEncoder(model_path=model, vocab=vocab, tokenizer=tokenizer)
