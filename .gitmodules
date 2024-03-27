@@ -1,0 +1,3 @@
+[submodule "NL-Augmenter"]
+	path = NL-Augmenter
+	url = https://github.com/lydianish/NL-Augmenter.git
