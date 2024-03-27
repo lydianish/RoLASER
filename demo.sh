@@ -2,9 +2,9 @@
 
 set -e
 
-UGC_FILE="data/demo/demo_ugc.txt"
-STD_FILE="data/demo/demo_std.txt"
-OUTPUT_DIR="outputs/demo"
+UGC_FILE="data/draft/ugc.txt"
+STD_FILE="data/draft/std.txt"
+OUTPUT_DIR="outputs/draft"
 
 mkdir -p $OUTPUT_DIR
 

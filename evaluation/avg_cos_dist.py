@@ -27,7 +27,7 @@ if __name__ == '__main__':
     all_scores.to_csv(os.path.join(args.output_dir, 'all_scores.csv'))
     all_scores[['model', 'cos']].groupby('model').describe().to_csv(os.path.join(args.output_dir, 'scores_summary.csv'))
 
-    sns.boxplot(data=all_scores, x='model', y='cos', palette='tab10')
+    sns.boxplot(data=all_scores, x='model', y='cos', hue='model', legend=False)
     plt.ylabel('Cosine distance')
     plt.xlabel('Model')
     plt.savefig(os.path.join(args.output_dir, 'cosine_distance.png'))
