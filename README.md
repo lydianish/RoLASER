@@ -209,6 +209,7 @@ Evaluation
   TITLE = {{Making Sentence Embeddings Robust to User-Generated Content}},
   AUTHOR = {Nishimwe, Lydia and Sagot, Beno{\^i}t and Bawden, Rachel},
   URL = {https://hal.science/hal-04520909},
+  BOOKTITLE = {{Proceedings of The 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation}}
   NOTE = {Accepted at LREC-COLING 2024},
   YEAR = {2024},
   MONTH = Mar,

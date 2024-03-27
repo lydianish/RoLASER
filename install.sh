@@ -3,6 +3,7 @@
 set -xe
 
 # Install PyTorch 1.10.1
+# If this fails to find the right files, try removing the +cu102 from the torch and torchvision versions
 pip install torch==1.10.1+cu102 torchvision==0.11.2+cu102 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu102/torch_stable.html
 
 # Install Fairseq and dependencies
