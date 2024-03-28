@@ -1,6 +1,8 @@
 # RoLASER: A Robust LASER Encoder for English User-Generated Content
 
-From the paper [Making Sentence Embeddings Robust to User-Generated Content (Nishimwe et al., 2024)](https://hal.science/hal-04520909).
+From the LREC-COLING paper [Making Sentence Embeddings Robust to User-Generated Content (Nishimwe et al., 2024)](https://hal.science/hal-04520909).
+
+💥 Demo app on [Hugging Face Spaces](https://huggingface.co/spaces/lydianish/rolaser-demo) 💥
 
 ## Table of Contents
 
