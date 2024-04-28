@@ -29,7 +29,7 @@ The models, tokenizers and vocabulary files for LASER, RoLASER and c-RoLASER are
 
 ### Training, validation and evaluation data
 
-Coming soon
+*Coming soon...*
 
 ## 3. Using RoLASER <a name="using"></a>
 
@@ -184,9 +184,7 @@ print('Average paired cosine distance', X_cos_avg)
 
 A defining contribution of RoLASER approach is the data augmentation technique used to generate artificial real-life-like UGC:
 
-<p align="center">
-  <img alt="Teacher-Student approach" width="500" src="./img/data_augmentation.png">
-</p>
+![Data augmentation technique](./img/data_augmentation.png)
 
 ### Installation
 
