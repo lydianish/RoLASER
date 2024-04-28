@@ -7,9 +7,10 @@ From the LREC-COLING paper [Making Sentence Embeddings Robust to User-Generated 
 ## Table of Contents
 
 1. [Introduction](#introduction)
-2. [Usage](#usage)
-3. [Reproducing results](#reproducing) 
-4. [Citation](#citation)
+2. [Models and data](#models)
+3. [Using RoLASER](#using)
+4. [Generating artificial UGC](#generating) 
+5. [Citation](#citation)
 
 
 ## 1. Introduction <a name="introduction"></a>
@@ -20,7 +21,17 @@ From the LREC-COLING paper [Making Sentence Embeddings Robust to User-Generated 
       
 RoLASER is a sentence embedding model trained using a teacher-student approach (with LASER as the teacher) to be robust to English user-generated content (UGC). Examples of such content are social media posts, which are known to present a lot of lexical variations (spelling errors, internet slang, abbreviations, ...). RoLASER maps non-standard UGC sentences close to their standard versions in the LASER embedding space, just as the original LASER encoder maps paraphrases and translations close to each other.
 
-## 2. Usage <a name="usage"></a>
+## 2. Models and data <a name="models"></a>
+
+### Pre-trained models
+
+The models, tokenizers and vocabulary files for LASER, RoLASER and c-RoLASER are available for download [here](https://zenodo.org/records/10864557).
+
+### Training, validation and evaluation data
+
+Coming soon
+
+## 3. Using RoLASER <a name="using"></a>
 
 ### Installation
 
@@ -107,10 +118,10 @@ Here is the boxplot of cosine distances from the 4 example sentences:
 
 #### b. Computing pairwise cosine distances between sentence embeddings with Python:
 
-An evaluation script is made available to compute the cosine distances of a file line by line (`evaluation/cos_dist.py`). Use the following command to call it:
+An evaluation script is made available to compute the cosine distances of a file line by line (`scripts/cos_dist.py`). Use the following command to call it:
 
 ```bash
-python ./evaluation/cos_dist.py -m $MODEL \
+python scripts/cos_dist.py -m $MODEL \
     --ugc-file $UGC_FILE \
     --std-file $STD_FILE \
     -o $OUTPUT_DIR \
@@ -169,42 +180,81 @@ X_cos_avg = X_cos.mean()
 print('Average paired cosine distance', X_cos_avg)
 ```
 
-### Pre-trained models
+## 4. Generating artificial UGC <a name="generating"></a>
 
-The models, tokenizers and vocabulary files for LASER, RoLASER and c-RoLASER are available [here](https://zenodo.org/records/10864557).
+A defining contribution of RoLASER approach is the data augmentation technique used to generate artificial real-life-like UGC:
 
-## 3. Reproducing results <a name="reproducing"></a>
+<p align="center">
+  <img alt="Teacher-Student approach" width="500" src="./img/data_augmentation.png">
+</p>
 
-Coming soon
+### Installation
 
-<!--
-link to download preprocessed data
+**Note:** Create a new Conda environment and clone the NL-Augmenter repo (outside of the RoLASER repo)!
 
-Training
-- fetch OSCAR 
-- augment OSCAR
-- tokenize
-- fairseq preprocess
-- fairseq train
+Environment:
+- (Mini)conda
+- Python 3.7 (tested with `3.7.12`)
+- GCC 11.2
 
-Validation
-- fetch flores dev
-- augment flores dev
-- validate
-- select best checkpoint
+Dependencies:
+- NL-Augmenter fork: https://github.com/lydianish/NL-Augmenter.git
 
-Evaluation
-- fetch flores devtest
-- augment flores devtest
-- evaluate
-    - flores
-    - multilexnorm
-    - rocsmt
-    - mteb
-- plot sentences
--->
+Installation commands:
+```bash
+# Go to RoLASER's parent directory
+cd .. 
 
-## 4. Citation <a name="citation"></a>
+# Install NL-Augmenter 
+git clone https://github.com/lydianish/NL-Augmenter.git
+cd NL-Augmenter 
+export NLAUGMENTER=`pwd` # required environment variable
+echo NLAUGMENTER=$NLAUGMENTER >> ~/.bashrc
+
+# Create conda environment with the required Python and GCC versions
+conda create -n "nlaugmenter_env" python=3.7.12 gxx=11.2.0=h702ea55_10 -c conda-forge
+
+# Activate the conda environment
+conda activate nlaugmenter_env
+
+# Install dependencies
+python setup.py sdist
+pip install -e .
+pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.0.0.tar.gz
+
+# Return to RoLASER directory
+cd ../RoLASER
+```
+
+### Usage
+
+A data augmentation script is available at `scripts/nlaugment.py`. It is used as follows:
+
+```bash
+python scripts/nlaugment.py \
+    -i $INPUT_FILE \
+    --seed $SEED \
+    --prob $PROB
+```
+where `$SEED` is the random seed and `$PROB` is the probability used to select which/how many transformations to apply to each sentence. The script creates 2 subfolders in the same directory as the input file: `trans/$SEED/` and `ugc/$SEED/`, and writes the augmented sentences and transformation applied for each sentence in two files.
+
+### Example
+
+For example, augment the standard demo file using:
+```bash
+bash demo_nlaugment.sh 
+```
+where the input file is `data/demo/std.txt`, the seed `0` and the proba `0.1`.
+The output files are located at `data/demo/ugc/0/std_mix_all.txt` and data/`demo/trans/0/std_mix_all_trans.txt`. Here are the outputs:
+
+|Generated sentence|Transformations|
+|---|---|
+|if i can’t afford the real deal , i ain’t buying nothing fake .. i just won’t have it ||
+|Um, Eye Dern't Noh, maybe it's because Wiehe're differfnt people with different bodies? | abr3;homo,0.5;fing,0.025 |
+|"Luckily n0thin9 happen3d to me, but I saw a macabre scene, as people tried to 6reak windows in order to g3t out.| leet,0.05 |
+|I then loft ihterest in her, because her Instaggam wasn’t that inraresting. | fing,0.07500000000000001 |
+
+## 5. Citation <a name="citation"></a>
 
 ```bibtex
 @unpublished{nishimwe:hal-04520909,

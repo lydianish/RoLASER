@@ -2,9 +2,9 @@
 
 set -e
 
-UGC_FILE="data/draft/ugc.txt"
-STD_FILE="data/draft/std.txt"
-OUTPUT_DIR="outputs/draft"
+UGC_FILE="data/demo/ugc.txt"
+STD_FILE="data/demo/std.txt"
+OUTPUT_DIR="outputs/demo"
 
 mkdir -p $OUTPUT_DIR
 
@@ -18,7 +18,7 @@ for i in {0..2}
 do
     echo "Evaluating ${MODEL[$i]}"
 
-    python evaluation/cos_dist.py \
+    python scripts/cos_dist.py \
         -m ${MODEL[$i]} \
         --ugc-file $UGC_FILE \
         --std-file $STD_FILE \
