@@ -1,6 +1,6 @@
 # RoLASER: A Robust LASER Encoder for English User-Generated Content
 
-From the LREC-COLING paper [Making Sentence Embeddings Robust to User-Generated Content (Nishimwe et al., 2024)](https://hal.science/hal-04520909).
+From the LREC-COLING paper [Making Sentence Embeddings Robust to User-Generated Content (Nishimwe et al., 2024)](https://aclanthology.org/2024.lrec-main.958/).
 
 💥 Demo app on [Hugging Face Spaces](https://huggingface.co/spaces/lydianish/rolaser-demo) 💥
 
@@ -255,17 +255,23 @@ The output files are located at `data/demo/ugc/0/std_mix_all.txt` and data/`demo
 ## 5. Citation <a name="citation"></a>
 
 ```bibtex
-@unpublished{nishimwe:hal-04520909,
-  TITLE = {{Making Sentence Embeddings Robust to User-Generated Content}},
-  AUTHOR = {Nishimwe, Lydia and Sagot, Beno{\^i}t and Bawden, Rachel},
-  URL = {https://hal.science/hal-04520909},
-  BOOKTITLE = {{Proceedings of The 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation}}
-  NOTE = {Accepted at LREC-COLING 2024},
-  YEAR = {2024},
-  MONTH = Mar,
-  KEYWORDS = {sentence embeddings ; robustness ; user-generated content (UGC)},
-  PDF = {https://hal.science/hal-04520909/file/Lydia_Nishimwe_LREC_COLING_2024.pdf},
-  HAL_ID = {hal-04520909},
-  HAL_VERSION = {v1},
+@inproceedings{nishimwe-etal-2024-making-sentence,
+    title = "Making Sentence Embeddings Robust to User-Generated Content",
+    author = "Nishimwe, Lydia  and
+      Sagot, Beno{\^\i}t  and
+      Bawden, Rachel",
+    editor = "Calzolari, Nicoletta  and
+      Kan, Min-Yen  and
+      Hoste, Veronique  and
+      Lenci, Alessandro  and
+      Sakti, Sakriani  and
+      Xue, Nianwen",
+    booktitle = "Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation (LREC-COLING 2024)",
+    month = may,
+    year = "2024",
+    address = "Torino, Italia",
+    publisher = "ELRA and ICCL",
+    url = "https://aclanthology.org/2024.lrec-main.958",
+    pages = "10984--10998"
 }
 ```
