@@ -79,7 +79,7 @@ def corrupt_sentence(sentence, prob=TOTAL_NOISE_PROBA, seed=SEED, trans=TRANSFOR
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--input-file", dest="input_file", help="path to raw input file", type=str)
+    parser.add_argument("-i", "--input-file", help="path to raw input file", type=str)
     parser.add_argument("-s", "--seed", help="random seed", type=int, default=SEED)
     parser.add_argument("-p", "--prob", help="probalility of adding UGC phenomena", type=float, default=TOTAL_NOISE_PROBA)
     parser.add_argument("-n", "--num-proc", help="number of processes", type=int, default=1)
