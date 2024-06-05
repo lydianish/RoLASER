@@ -1,6 +1,6 @@
 import os, argparse
 import numpy as np
-from datasets import Dataset
+from datasets import load_dataset
 
 assert os.environ.get('NLAUGMENTER'), 'Please set the NLAUGMENTER environment variable'
 
@@ -29,7 +29,7 @@ def sample_prob(default_prob):
 
 def init_transformation(name, seed=0, max_outputs=1):
     if name not in TRANSFORMATIONS:
-        raise AttributeError(name + " was not found in the list of known transformations...")
+        raise AttributeError(name + " was not found in the list of known transformations: " + TRANSFORMATIONS)
     if name == "abr1":
         prob = sample_prob(0.1)
         return [ Abbreviate(prob=prob, seed=seed+1, max_outputs=max_outputs), name, prob ]
@@ -66,14 +66,14 @@ def init_transformation(name, seed=0, max_outputs=1):
         return [ WhitespacePerturbation(remove_prob=remove_prob, add_prob=add_prob, seed=seed+11, max_outputs=max_outputs), name, remove_prob, add_prob ]
     
 def corrupt_sentence(sentence, prob=TOTAL_NOISE_PROBA, seed=SEED, trans=TRANSFORMATIONS):
-    trans = np.array(trans)
-    transformations_to_apply = [ init_transformation(name, seed=seed) for name in trans[np.random.random(trans.size) < prob ] ]
+    transformations_to_apply = [ init_transformation(name, seed) for name in trans if np.random.random() < prob ]
     np.random.shuffle(transformations_to_apply)
     transformations = []
+    new_sentence = sentence
     for t in transformations_to_apply:
-        sentence = t[0].generate(sentence)[0]
+        new_sentence = t[0].generate(new_sentence)[0]
         transformations.append(','.join([str(param) for param in t[1:]]))
-    new_sentence = sentence.rstrip() + ' \n'
+    new_sentence = new_sentence.rstrip() + '\n'
     applied_transformations = ';'.join(transformations) + '\n'
     return new_sentence, applied_transformations
 
@@ -82,10 +82,12 @@ if __name__ == "__main__":
     parser.add_argument("-i", "--input-file", dest="input_file", help="path to raw input file", type=str)
     parser.add_argument("-s", "--seed", help="random seed", type=int, default=SEED)
     parser.add_argument("-p", "--prob", help="probalility of adding UGC phenomena", type=float, default=TOTAL_NOISE_PROBA)
+    parser.add_argument("-n", "--num-proc", help="number of processes", type=int, default=1)
     args = parser.parse_args()
 
     def corrupt_example(example):
-        return {'output': corrupt_sentence(example['sentence'], args.prob, args.seed)}
+        example['new_sentence'], example['transformations'] = corrupt_sentence(example['text'], args.prob, args.seed)
+        return example
 
     dirname, basename = os.path.split(args.input_file)
     ugc_dir =  os.path.join(dirname, "ugc", str(args.seed))
@@ -99,19 +101,14 @@ if __name__ == "__main__":
     transformation_file = os.path.join(trans_dir, filename + "_mix_all_trans" + file_extension)
 
     np.random.seed(args.seed)
-    
-    with open(args.input_file, "r") as f1:
-        sentences = f1.readlines()
-    
-    ds = Dataset.from_dict({"sentence": sentences})
-    ds = ds.map(corrupt_example)
-    ds = ds.add_column("new_sentence", np.array(ds["output"])[:,0])
-    ds = ds.add_column("transformations", np.array(ds["output"])[:,1])
-    
+
+    ds = load_dataset("text", data_files={ "train": args.input_file})
+    ds = ds.map(corrupt_example, num_proc=args.num_proc)
+
     print("Writing new sentences in", output_file)
     with open(output_file, "w") as f2:
-        f2.writelines(ds["new_sentence"])
+        f2.writelines(ds["train"]["new_sentence"])
     
     print("Writing transformations in", transformation_file)
     with open(transformation_file, "w") as f3:
-        f3.writelines(ds["transformations"])
+        f3.writelines(ds["train"]["transformations"])
