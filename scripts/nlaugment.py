@@ -64,7 +64,10 @@ def init_transformation(name, seed=0, max_outputs=1):
         remove_prob = sample_prob(0.1)
         add_prob = sample_prob(0.05)
         return [ WhitespacePerturbation(remove_prob=remove_prob, add_prob=add_prob, seed=seed+11, max_outputs=max_outputs), name, remove_prob, add_prob ]
-    
+
+def remove_linebreaks(text):
+    return text.strip().replace('\n', ' ').replace('\r', ' ')
+
 def corrupt_sentence(sentence, prob=TOTAL_NOISE_PROBA, seed=SEED, trans=TRANSFORMATIONS):
     transformations_to_apply = [ init_transformation(name, seed) for name in trans if np.random.random() < prob ]
     np.random.shuffle(transformations_to_apply)
@@ -73,7 +76,7 @@ def corrupt_sentence(sentence, prob=TOTAL_NOISE_PROBA, seed=SEED, trans=TRANSFOR
     for t in transformations_to_apply:
         new_sentence = t[0].generate(new_sentence)[0]
         transformations.append(','.join([str(param) for param in t[1:]]))
-    new_sentence = new_sentence.rstrip() + '\n'
+    new_sentence = remove_linebreaks(new_sentence) + '\n'
     applied_transformations = ';'.join(transformations) + '\n'
     return new_sentence, applied_transformations
 
