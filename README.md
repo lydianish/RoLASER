@@ -2,7 +2,11 @@
 
 From the LREC-COLING paper [Making Sentence Embeddings Robust to User-Generated Content (Nishimwe et al., 2024)](https://aclanthology.org/2024.lrec-main.958/).
 
-💥 Demo app on [Hugging Face Spaces](https://huggingface.co/spaces/lydianish/rolaser-demo) 💥
+💥 Demo app on [Hugging Face Spaces](https://huggingface.co/spaces/lydianish/rolaser-demo)
+
+💥 **News:** Release of **RoLASER v2** on [Hugging Face](https://huggingface.co/lydianish/RoLASER-v2) which is
+- Compatible with SentenceTransformers
+- Bilingual in English and French
 
 ## Table of Contents
 
