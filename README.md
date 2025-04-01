@@ -190,7 +190,7 @@ print('Average paired cosine distance', X_cos_avg)
 
 ## 4. Generating artificial UGC <a name="generating"></a>
 
-A defining contribution of RoLASER approach is the data augmentation technique used to generate artificial real-life-like UGC by randomly selecting and applying a subset of transformations from 12 [NL-Augmenter](https://github.com/lydianish/NL-Augmenter) perturbations. 
+A defining contribution of the RoLASER approach is the data augmentation technique used to generate artificial real-life-like UGC by randomly selecting and applying a subset of transformations from 12 [NL-Augmenter](https://github.com/lydianish/NL-Augmenter) perturbations. 
 
 ![Data augmentation technique](./img/data_augmentation.png)
 
